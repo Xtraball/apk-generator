@@ -21,11 +21,12 @@ try {
     ], 'Starting APK Build');
 
     // Test licence ("MAE Hosted", "PE Hosted") are only allowed!
-    $exceptions = json_decode(file_get_contents('./exclude.json'), true);
-
-    if (in_array($license, $exceptions)) {
-        Utils::log("You are not allowed to use this service.", "error");
-        exit(1);
+    if (is_file('./exclude.json')) {
+        $exceptions = json_decode(file_get_contents('./exclude.json'), true);
+        if (in_array($license, $exceptions)) {
+            Utils::log("You are not allowed to use this service.", "error");
+            exit(1);
+        }
     }
 
     $licenseType = Utils::checkLicense($license);
