@@ -23,6 +23,9 @@ try {
     // Test licence ("MAE Hosted", "PE Hosted") are only allowed!
     if (is_file('./exclude.json')) {
         $exceptions = json_decode(file_get_contents('./exclude.json'), true);
+
+        Utils::logTable($exceptions, "Excluded licenses");
+
         if (in_array($license, $exceptions)) {
             Utils::log("You are not allowed to use this service.", "error");
             exit(1);
