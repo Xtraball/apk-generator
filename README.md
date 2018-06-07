@@ -1,6 +1,6 @@
-** Docker for APK-Generator via Jenkins **
+## Docker for APK-Generator via Jenkins
 
-first copy `docker-compose-template.yml` to `docker-compose.yml` then adjust to your Jenkins setup
+First make a copy of **docker-compose-template.yml** to **docker-compose.yml** then adjust to your Jenkins setup
 
 - JENKINS_URL=https://my-jenkins-server.com/
 - JENKINS_SECRET=my-node-secret-key
