@@ -77,7 +77,7 @@ try {
     Utils::log("Uploading APK to server", "info");
     $uploadResult = Utils::uploadApk($jobUrl, $appId, "/home/builds/{$jobName}.apk");
     if ($uploadResult != 0 || array_key_exists('error', $uploadResult)) {
-        Utils::log("An error occurred while uploading the APK.", "error");
+        Utils::log("An error occurred while uploading the APK, {$uploadResult['message']}", "error");
         exit(1);
     }
 
