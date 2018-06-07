@@ -115,7 +115,7 @@ class Utils
      * @return mixed
      * @throws \Exception
      */
-    public static function uploadApk($jobUrl, $appId, $path)
+    public static function uploadApk($jobUrl, $appId, $path, $keystore = false)
     {
         $urlParts = parse_url($jobUrl);
         $url = sprintf("%s://%s/application/backoffice_iosautopublish/uploadapk",
@@ -126,6 +126,10 @@ class Utils
             'appId' => $appId,
             'file[0]' => new \cURLFile($path, 'application/octet-stream', basename($path)),
         ];
+
+        if ($keystore !== false) {
+            $post['file[1]'] = new \cURLFile($keystore, 'application/octet-stream', basename($keystore));
+        }
 
         $curl = curl_init();
         curl_setopt_array($curl, [
@@ -151,6 +155,27 @@ class Utils
         $result = json_decode($response, true);
 
         return $result;
+    }
+
+    /**
+     * @param $keystore
+     * @param string $keystorePath
+     * @throws \Exception
+     */
+    public static function generateKeystore($keystore, $keystorePath = './keystore.pks')
+    {
+        $command = sprintf("keytool -genkeypair -keyalg RSA -noprompt -alias {$keystore['alias']} \
+                                      -dname 'CN={$keystore['organization']}, O={$keystore['organization']}' \
+                                      -keystore {$keystorePath} \
+                                      -storepass {$keystore['storepass']} \
+                                      -keypass {$keystore['keypass']} \
+                                      -validity 36135");
+
+        exec($command, $o, $return);
+
+        if ($return !== 0) {
+            throw new \Exception('Unable to generate the keystore, '. print_r($keystore, true));
+        }
     }
 }
 

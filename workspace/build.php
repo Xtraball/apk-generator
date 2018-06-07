@@ -10,7 +10,10 @@ try {
     $jobName = base64_decode($argv[2]);
     $license = base64_decode($argv[3]);
     $appId = base64_decode($argv[4]);
-    $buildNumber = $argv[5];
+    $appName = base64_decode($argv[5]);
+    $uuid = base64_decode($argv[6]);
+    $keystore = json_decode(base64_decode($argv[7]), true);
+    $buildNumber = $argv[8];
 
     Utils::logTable([
         'jobUrl' => $jobUrl,
@@ -61,6 +64,14 @@ try {
         exit(1);
     }
     exec("unzip ./sources.zip -d ./sources");
+
+    // Should we generate keystore!
+    $uploadKeystore = false;
+    if ($keystore['generate'] === true) {
+        Utils::generateKeystore($keystore, './sources/keystore.pks');
+        $uploadKeystore = '/home/builds/sources/keystore.pks';
+    }
+
     chmod("./build.sh", 0777);
     Utils::log("Building {$jobName}", "info");
     passthru("./build.sh", $return);
@@ -75,7 +86,7 @@ try {
 
     // Send apk to server!
     Utils::log("Uploading APK to server", "info");
-    $uploadResult = Utils::uploadApk($jobUrl, $appId, "/home/builds/{$jobName}.apk");
+    $uploadResult = Utils::uploadApk($jobUrl, $appId, "/home/builds/{$jobName}.apk", $uploadKeystore);
     if (array_key_exists('error', $uploadResult)) {
         Utils::log("An error occurred while uploading the APK, {$uploadResult['message']}", "error");
         exit(1);
