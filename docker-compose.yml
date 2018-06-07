@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  apkgenerator:
+    restart: always
+    image: apkgenerator
+    environment:
+      - JENKINS_URL=changeme
+      - JENKINS_SECRET=changeme
+    volumes:
+      - ./workspace:/home/builds
+    build:
+      context: .
+      dockerfile: ./Dockerfile
