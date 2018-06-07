@@ -105,7 +105,7 @@ class Utils
 
         $result = json_decode($response, true);
 
-        return $result['type'];
+        return $result;
     }
 
     /**
@@ -150,7 +150,7 @@ class Utils
 
         $result = json_decode($response, true);
 
-        return $result['type'];
+        return $result;
     }
 }
 

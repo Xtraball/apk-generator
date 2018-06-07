@@ -32,15 +32,15 @@ try {
         }
     }
 
-    $licenseType = Utils::checkLicense($license);
-    if ($licenseType != 0 || array_key_exists('error', $licenseType)) {
+    $checkLicense = Utils::checkLicense($license);
+    if (array_key_exists('error', $checkLicense)) {
         Utils::log("An error occurred while checking the license.", "error");
         exit(1);
     }
 
-    Utils::log("Type is {$licenseType}", "info");
+    Utils::log("Type is {$checkLicense['type']}", "info");
 
-    switch (strtolower($licenseType))
+    switch (strtolower($checkLicense['type']))
     {
         case 'mae hosted':
         case 'pe hosted':
