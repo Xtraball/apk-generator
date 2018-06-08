@@ -250,6 +250,11 @@ class Utils
     {
         $urlParts = parse_url($jobUrl);
 
+        if (!is_file($keystorePath)) {
+            Utils::log("Unable to fnd keystore file at {$keystorePath}.", "error");
+            return;
+        }
+
         $data = [
             'host' => $urlParts['host'],
             'appId' => $appId,
@@ -271,7 +276,7 @@ class Utils
             mkdir($folder, 0777, true);
         }
 
-        file_put_contents($path, json_encode($data));
+        file_put_contents($path, json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 
         Utils::log("Keystore backed-up to {$path}.", "success");
     }
