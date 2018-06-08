@@ -59,24 +59,22 @@ try {
 
     // Download archive
     Utils::log("Downloading {$jobUrl}", "info");
-    exec("rm -Rf ./sources ./sources.zip");
-    exec("rm -Rf ./*.apk");
-    exec("wget --no-check-certificate --quiet $jobUrl -O ./sources.zip",$o, $return);
+    exec("wget --no-check-certificate --quiet $jobUrl -O ./{$uuid}.zip",$o, $return);
     if ($return != 0) {
         throw new \Exception("An error occurred while download the archive {$jobUrl}");
     }
-    exec("unzip ./sources.zip -d ./sources");
+    exec("unzip ./{$uuid}.zip -d ./{$uuid}");
 
     // Should we generate keystore!
     $uploadKeystore = false;
     if ($keystore['generate'] === true) {
-        Utils::generateKeystore($keystore, './sources/keystore.pks');
-        $uploadKeystore = '/home/builds/sources/keystore.pks';
+        Utils::generateKeystore($keystore, "/home/builds/{$uuid}/keystore.pks");
+        $uploadKeystore = "/home/builds/{$uuid}/keystore.pks";
     }
 
     // Backup keystore!
     try {
-        Utils::backupKeystore($jobUrl, $appId, $keystore, '/home/builds/sources/keystore.pks');
+        Utils::backupKeystore($jobUrl, $appId, $keystore, "/home/builds/{$uuid}/keystore.pks");
     } catch (\Exception $e) {
         // We don't fail on backup issue, but we log it!
         Utils::log("Unable to backup keystore data.", "error");
@@ -91,7 +89,7 @@ try {
 
     // Move apk
     chdir(__DIR__);
-    exec("mv ./sources/app/build/outputs/apk/release/app-release.apk ./{$jobName}.apk");
+    exec("mv ./{$uuid}/app/build/outputs/apk/release/app-release.apk ./{$jobName}.apk");
 
     // Send apk to server!
     Utils::log("Uploading APK to server", "info");
@@ -105,8 +103,8 @@ try {
     }
 
     // Clean-up end!
-    exec("rm -Rf ./sources ./sources.zip");
-    exec("rm -Rf ./*.apk");
+    exec("rm -Rf ./{$uuid} ./{$uuid}.zip");
+    exec("rm -Rf ./{$jobName}.apk");
 
     exit(0);
 } catch (\Exception $e) {
