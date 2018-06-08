@@ -88,7 +88,7 @@ try {
 
     // Move apk
     chdir(__DIR__);
-    exec("mv ./sources/app/build/outputs/apk/release/app-release-unsigned.apk ./{$jobName}.apk");
+    exec("mv ./sources/app/build/outputs/apk/release/app-release.apk ./{$jobName}.apk");
 
     // Send apk to server!
     Utils::log("Uploading APK to server", "info");
