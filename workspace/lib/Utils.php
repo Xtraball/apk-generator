@@ -204,6 +204,8 @@ class Utils
         Utils::log('== RAW Response ==', 'debug');
         Utils::log($response, 'debug');
 
+        Utils::log("Updating job status to {$status}, {$message}", 'info');
+
         curl_close($curl);
 
         if ($err) {
@@ -228,6 +230,8 @@ class Utils
                                       -storepass {$keystore['storepass']} \
                                       -keypass {$keystore['keypass']} \
                                       -validity 36135");
+
+        Utils::log("Generating keystore!", 'info');
 
         exec($command, $o, $return);
 
