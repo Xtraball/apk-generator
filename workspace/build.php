@@ -36,15 +36,13 @@ try {
         Utils::logTable($exceptions, "Excluded licenses");
 
         if (in_array($license, $exceptions)) {
-            Utils::log("You are not allowed to use this service.", "error");
-            exit(1);
+            throw new \Exception("You are not allowed to use this service.");
         }
     }
 
     $checkLicense = Utils::checkLicense($license);
     if (array_key_exists('error', $checkLicense)) {
-        Utils::log("An error occurred while checking the license.", "error");
-        exit(1);
+        throw new \Exception("An error occurred while checking the license.");
     }
 
     Utils::log("Type is {$checkLicense['type']}", "info");
@@ -56,8 +54,7 @@ try {
             // Ok!
             break;
         default:
-            Utils::log("You are not allowed to use this service.", "error");
-            exit(1);
+            throw new \Exception("You are not allowed to use this service.");
     }
 
     // Download archive
@@ -66,8 +63,7 @@ try {
     exec("rm -Rf ./*.apk");
     exec("wget --quiet $jobUrl -O ./sources.zip",$o, $return);
     if ($return != 0) {
-        Utils::log("An error occurred while download the archive {$jobUrl}", "error");
-        exit(1);
+        throw new \Exception("An error occurred while download the archive {$jobUrl}");
     }
     exec("unzip ./sources.zip -d ./sources");
 
@@ -82,8 +78,7 @@ try {
     Utils::log("Building {$jobName}", "info");
     passthru("./build.sh", $return);
     if ($return != 0) {
-        Utils::log("An error occurred while building the APK.", "error");
-        exit(1);
+        throw new \Exception("An error occurred while building the APK.");
     }
 
     // Move apk
@@ -94,8 +89,7 @@ try {
     Utils::log("Uploading APK to server", "info");
     $uploadResult = Utils::uploadApk($jobUrl, $appId, "/home/builds/{$jobName}.apk", $uploadKeystore);
     if (array_key_exists('error', $uploadResult)) {
-        Utils::log("An error occurred while uploading the APK, {$uploadResult['message']}", "error");
-        exit(1);
+        throw new \Exception("An error occurred while uploading the APK, {$uploadResult['message']}");
     }
 
     if (array_key_exists('success', $uploadResult)) {
