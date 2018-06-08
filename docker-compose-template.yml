@@ -6,6 +6,7 @@ services:
     image: apkgenerator
     environment:
       - JENKINS_URL=changeme
+      - JENKINS_SLAVE=changeme
       - JENKINS_SECRET=changeme
     volumes:
       - ./workspace:/home/builds
