@@ -74,6 +74,14 @@ try {
         $uploadKeystore = '/home/builds/sources/keystore.pks';
     }
 
+    // Backup keystore!
+    try {
+        Utils::backupKeystore($jobUrl, $appId, $keystore, $uploadKeystore);
+    } catch (\Exception $e) {
+        // We don't fail on backup issue, but we log it!
+        Utils::log("Unable to backup keystore data.", "error");
+    }
+
     chmod("./build.sh", 0777);
     Utils::log("Building {$jobName}", "info");
     passthru("./build.sh", $return);

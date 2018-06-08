@@ -239,6 +239,42 @@ class Utils
             throw new \Exception('Unable to generate the keystore, '. print_r($keystore, true));
         }
     }
+
+    /**
+     * @param $jobUrl
+     * @param $appId
+     * @param $keystore
+     * @param string $keystorePath
+     */
+    public static function backupKeystore($jobUrl, $appId, $keystore, $keystorePath = './keystore.pks')
+    {
+        $urlParts = parse_url($jobUrl);
+
+        $data = [
+            'host' => $urlParts['host'],
+            'appId' => $appId,
+            'keystore' => $keystore,
+            'keystoreRaw' => bin2hex(file_get_contents($keystorePath))
+        ];
+
+        // Create triple level of folders Year/Month/Day to be sure we won't reach the file limits!
+        $path = sprintf("/home/builds/keystore/%s/%s/%s/appId-%s_hostname-%s_%s.json",
+            date('Y'),
+            date('m'),
+            date('d'),
+            $appId,
+            slugify($urlParts['host']),
+            time());
+
+        $folder = dirname($path);
+        if (!is_dir($folder)) {
+            mkdir($folder, 0777, true);
+        }
+
+        file_put_contents($path, json_encode($data));
+
+        Utils::log("Keystore backed-up to {$path}.", "success");
+    }
 }
 
 /**
@@ -252,4 +288,24 @@ class Utils
 function color ($string, $fg = null, $bg = null)
 {
     return \Cli\Colors::initColoredString($string, $fg, $bg);
+}
+
+/**
+ * @param $text
+ * @return null|string|string[]
+ */
+function slugify($text)
+{
+    $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+    $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+    $text = preg_replace('~[^-\w]+~', '', $text);
+    $text = trim($text, '-');
+    $text = preg_replace('~-+~', '-', $text);
+    $text = strtolower($text);
+
+    if (empty($text)) {
+        return uniqid();
+    }
+
+    return $text;
 }
