@@ -158,6 +158,51 @@ class Utils
     }
 
     /**
+     * @param $jobUrl
+     * @param $appId
+     * @param $status
+     * @return mixed
+     */
+    public static function updateJobStatus($jobUrl, $appId, $status, $message)
+    {
+        $urlParts = parse_url($jobUrl);
+        $url = sprintf("%s://%s/application/backoffice_iosautopublish/apkservicestatus",
+            $urlParts['scheme'],
+            $urlParts['host']);
+
+        $post = [
+            'appId' => $appId,
+            'status' => $status,
+            'message' => $message,
+        ];
+
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => $post,
+        ]);
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            Utils::log($err, 'error');
+        }
+
+        $result = json_decode($response, true);
+
+        return $result;
+    }
+
+    /**
      * @param $keystore
      * @param string $keystorePath
      * @throws \Exception

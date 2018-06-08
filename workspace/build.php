@@ -109,5 +109,6 @@ try {
     exit(0);
 } catch (\Exception $e) {
     Utils::log("Caught global exception {$e->getMessage()}", "error");
+    Utils::updateJobStatus($jobUrl, $appId, 'failed', $e->getMessage());
     exit(1);
 }
