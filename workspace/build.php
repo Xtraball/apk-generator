@@ -61,7 +61,7 @@ try {
     Utils::log("Downloading {$jobUrl}", "info");
     exec("rm -Rf ./sources ./sources.zip");
     exec("rm -Rf ./*.apk");
-    exec("wget --quiet $jobUrl -O ./sources.zip",$o, $return);
+    exec("wget --no-check-certificate --quiet $jobUrl -O ./sources.zip",$o, $return);
     if ($return != 0) {
         throw new \Exception("An error occurred while download the archive {$jobUrl}");
     }
