@@ -97,6 +97,9 @@ class Utils
         $response = curl_exec($curl);
         $err = curl_error($curl);
 
+        Utils::log('== RAW Response ==', 'info');
+        Utils::log($response, 'info');
+
         curl_close($curl);
 
         if ($err) {
@@ -148,6 +151,9 @@ class Utils
 
         curl_close($curl);
 
+        Utils::log('== RAW Response ==', 'info');
+        Utils::log($response, 'info');
+
         if ($err) {
             throw new \Exception($err);
         }
@@ -190,6 +196,9 @@ class Utils
 
         $response = curl_exec($curl);
         $err = curl_error($curl);
+
+        Utils::log('== RAW Response ==', 'info');
+        Utils::log($response, 'info');
 
         curl_close($curl);
 
