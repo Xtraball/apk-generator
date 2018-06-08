@@ -12,8 +12,8 @@ try {
     $jobName = base64_decode($argv[2]);
     $license = base64_decode($argv[3]);
     $appId = base64_decode($argv[4]);
-    $appName = base64_decode($argv[5]);
-    $uuid = base64_decode($argv[6]);
+    $appName = $argv[5];
+    $uuid = $argv[6];
     $keystore = json_decode(base64_decode($argv[7]), true);
     $buildNumber = $argv[8];
 
