@@ -55,6 +55,10 @@ class Utils
                 echo sprintf("%s %s", color('[SUCCESS]', 'green'),
                         $message) . "\n";
                 break;
+            case 'debug':
+                echo sprintf("%s %s", color('[DEBUG]', 'purple'),
+                        $message) . "\n";
+                break;
             case 'info':
             default:
                     echo sprintf("%s %s", color('[INFO]', 'blue'),
@@ -97,8 +101,8 @@ class Utils
         $response = curl_exec($curl);
         $err = curl_error($curl);
 
-        Utils::log('== RAW Response ==', 'info');
-        Utils::log($response, 'info');
+        Utils::log('== RAW Response ==', 'debug');
+        Utils::log($response, 'debug');
 
         curl_close($curl);
 
@@ -151,8 +155,8 @@ class Utils
 
         curl_close($curl);
 
-        Utils::log('== RAW Response ==', 'info');
-        Utils::log($response, 'info');
+        Utils::log('== RAW Response ==', 'debug');
+        Utils::log($response, 'debug');
 
         if ($err) {
             throw new \Exception($err);
@@ -197,8 +201,8 @@ class Utils
         $response = curl_exec($curl);
         $err = curl_error($curl);
 
-        Utils::log('== RAW Response ==', 'info');
-        Utils::log($response, 'info');
+        Utils::log('== RAW Response ==', 'debug');
+        Utils::log($response, 'debug');
 
         curl_close($curl);
 
