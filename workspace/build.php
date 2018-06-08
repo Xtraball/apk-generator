@@ -6,6 +6,8 @@ require_once './lib/Colors.php';
 require_once './lib/Utils.php';
 
 try {
+    Utils::logTable($argv, 'RAW Arguments');
+
     $jobUrl = base64_decode($argv[1]);
     $jobName = base64_decode($argv[2]);
     $license = base64_decode($argv[3]);
@@ -20,8 +22,12 @@ try {
         'jobName' => $jobName,
         'license' => $license,
         'appId' => $appId,
+        'appName' => $appName,
+        'uuid' => $uuid,
         'buildNumber' => $buildNumber,
     ], 'Starting APK Build');
+
+    Utils::logTable($keystore, 'Keystore informations');
 
     // Test licence ("MAE Hosted", "PE Hosted") are only allowed!
     if (is_file('./exclude.json')) {
