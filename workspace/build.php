@@ -82,7 +82,7 @@ try {
 
     chmod("./build.sh", 0777);
     Utils::log("Building {$jobName}", "info");
-    passthru("./build.sh", $return);
+    passthru("./build.sh {$uuid}", $return);
     if ($return != 0) {
         throw new \Exception("An error occurred while building the APK.");
     }
