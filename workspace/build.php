@@ -17,6 +17,12 @@ try {
     $keystore = json_decode(base64_decode($argv[7]), true);
     $buildNumber = $argv[8];
 
+    // Each build creates the subsequent java-BUILDNUMBER.lock
+    // this way even while we ensure only one java build is running
+    // we also ensure builds are unlock in the right sequence!
+    $nextJavaLock = "/home/builds/java-" . ($buildNumber + 1) . ".lock";
+    touch($nextJavaLock);
+
     Utils::logTable([
         'jobUrl' => $jobUrl,
         'jobName' => $jobName,
@@ -82,10 +88,10 @@ try {
 
     chmod("./build.sh", 0777);
     Utils::log("Building {$jobName}", "info");
-    passthru("./build.sh {$uuid}", $return);
-    // Be sure the java.lock is removed!
-    if (is_file("/home/builds/java.lock")) {
-        unlink("/home/builds/java.lock");
+    passthru("./build.sh {$uuid} {$buildNumber}", $return);
+    // Unlock next job java.lock
+    if (is_file($nextJavaLock)) {
+        unlink($nextJavaLock);
     }
     if ($return != 0) {
         throw new \Exception("An error occurred while building the APK.");
@@ -115,9 +121,9 @@ try {
     Utils::log("Caught global exception {$e->getMessage()}", "error");
     Utils::updateJobStatus($jobUrl, $appId, 'failed', $e->getMessage());
 
-    // Be sure the java.lock is removed!
-    if (is_file("/home/builds/java.lock")) {
-        unlink("/home/builds/java.lock");
+    // Unlock next job java.lock (just to be sure in case of exception)
+    if (is_file($nextJavaLock)) {
+        unlink($nextJavaLock);
     }
     exit(1);
 }
