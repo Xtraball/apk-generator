@@ -10,7 +10,7 @@ export GRADLE_OPTS=-Dorg.gradle.daemon=false
 
 cd "./$folder"
 
-while [ -f "/home/builds/java-$buildNumber.lock" ]
+while [ -f "/home/builds/java.lock" ]
 do
   echo "Waiting next slot to execute java ..."
   sleep 15

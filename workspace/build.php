@@ -17,10 +17,8 @@ try {
     $keystore = json_decode(base64_decode($argv[7]), true);
     $buildNumber = $argv[8];
 
-    // Each build creates the subsequent java-BUILDNUMBER.lock
-    // this way even while we ensure only one java build is running
-    // we also ensure builds are unlock in the right sequence!
-    $nextJavaLock = "/home/builds/java-" . ($buildNumber + 1) . ".lock";
+    // Revert to simple java.lock, running on multiple nodes breaks the sequential order!
+    $nextJavaLock = "/home/builds/java.lock";
     touch($nextJavaLock);
 
     Utils::logTable([
