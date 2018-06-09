@@ -15,5 +15,6 @@ do
   sleep 10
 done
 touch /home/builds/java.lock
+chmod 777 /home/builds/java.lock
 
 ./gradlew $buildType

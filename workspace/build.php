@@ -84,7 +84,7 @@ try {
     Utils::log("Building {$jobName}", "info");
     passthru("./build.sh {$uuid}", $return);
     // Be sure the java.lock is removed!
-    if (!is_file("/home/builds/java.lock")) {
+    if (is_file("/home/builds/java.lock")) {
         unlink("/home/builds/java.lock");
     }
     if ($return != 0) {
@@ -116,7 +116,7 @@ try {
     Utils::updateJobStatus($jobUrl, $appId, 'failed', $e->getMessage());
 
     // Be sure the java.lock is removed!
-    if (!is_file("/home/builds/java.lock")) {
+    if (is_file("/home/builds/java.lock")) {
         unlink("/home/builds/java.lock");
     }
     exit(1);
