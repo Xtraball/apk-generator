@@ -257,7 +257,7 @@ class Utils
         $urlParts = parse_url($jobUrl);
 
         if (!is_file($keystorePath)) {
-            Utils::log("Unable to fnd keystore file at {$keystorePath}.", "error");
+            Utils::log("Unable to find keystore file at {$keystorePath}.", "error");
             return;
         }
 

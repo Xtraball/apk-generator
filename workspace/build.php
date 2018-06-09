@@ -61,7 +61,7 @@ try {
     Utils::log("Downloading {$jobUrl}", "info");
     exec("wget --no-check-certificate --quiet $jobUrl -O ./{$uuid}.zip",$o, $return);
     if ($return != 0) {
-        throw new \Exception("An error occurred while download the archive {$jobUrl}");
+        throw new \Exception("An error occurred while downloading the archive {$jobUrl}");
     }
     exec("unzip ./{$uuid}.zip -d ./{$uuid}");
 
@@ -88,7 +88,7 @@ try {
     }
 
     // Move apk
-    chdir(__DIR__);
+    chdir("/home/builds");
     exec("mv ./{$uuid}/app/build/outputs/apk/release/app-release.apk ./{$jobName}.apk");
 
     // Send apk to server!
