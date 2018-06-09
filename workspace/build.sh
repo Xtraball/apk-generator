@@ -8,4 +8,14 @@ export ANDROID_HOME=/home/builds/android-sdk
 export GRADLE_OPTS=-Dorg.gradle.daemon=false
 
 cd "./$folder"
+
+while [ -f /home/builds/java.lock ]
+do
+  echo "Waiting next slot to execute java ..."
+  sleep 10
+done
+touch /home/builds/java.lock
+
 ./gradlew $buildType
+
+rm -f /home/builds/java.lock
