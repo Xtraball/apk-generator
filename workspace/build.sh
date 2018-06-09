@@ -17,5 +17,3 @@ done
 touch /home/builds/java.lock
 
 ./gradlew $buildType
-
-rm -f /home/builds/java.lock

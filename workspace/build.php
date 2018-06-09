@@ -83,6 +83,10 @@ try {
     chmod("./build.sh", 0777);
     Utils::log("Building {$jobName}", "info");
     passthru("./build.sh {$uuid}", $return);
+    // Be sure the java.lock is removed!
+    if (!is_file("/home/builds/java.lock")) {
+        unlink("/home/builds/java.lock");
+    }
     if ($return != 0) {
         throw new \Exception("An error occurred while building the APK.");
     }
@@ -110,5 +114,10 @@ try {
 } catch (\Exception $e) {
     Utils::log("Caught global exception {$e->getMessage()}", "error");
     Utils::updateJobStatus($jobUrl, $appId, 'failed', $e->getMessage());
+
+    // Be sure the java.lock is removed!
+    if (!is_file("/home/builds/java.lock")) {
+        unlink("/home/builds/java.lock");
+    }
     exit(1);
 }
