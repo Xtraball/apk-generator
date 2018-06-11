@@ -53,8 +53,10 @@ try {
 
     switch (strtolower($checkLicense['type']))
     {
-        case 'mae hosted':
-        case 'pe hosted':
+        case 'mae':
+        case 'pe':
+        case 'mae-hosted':
+        case 'pe-hosted':
             // Ok!
             break;
         default:
