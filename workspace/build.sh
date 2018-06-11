@@ -10,10 +10,19 @@ export GRADLE_OPTS=-Dorg.gradle.daemon=false
 
 cd "./$folder"
 
+counter=0
 while [ -f "/home/builds/java.lock" ]
 do
   echo "Waiting next slot to execute java ..."
   sleep 15
+
+  # Implements a counter in case a build forget to unlock java.lock
+  # after 5 minutes (15s * 20)  locked we force the build!
+  let "counter++"
+  if [ $counter = '20' ];
+  then
+    rm -f "/home/builds/java.lock"
+  fi;
 done
 
 ./gradlew $buildType
