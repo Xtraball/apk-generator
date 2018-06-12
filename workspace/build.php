@@ -56,6 +56,28 @@ try {
         throw new \Exception("You are not allowed to use this service.");
     }
 
+    // We will try to monkey-patch missing domains from krypton!
+    if (preg_match('/^https?:\/(\/\-\/)var\//i', $jobUrl) === 1) {
+        Utils::log("Bad url \$jobUrl: {$jobUrl}", "error");
+        try {
+            // We will try to get domain from Krypton
+            if (array_key_exists('hosts', $checkLicense)) {
+                $hosts = json_decode($checkLicense['hosts'], true);
+                if (isset($hosts[0])) {
+                    $jobUrl = str_replace('://-/var', '://' . $hosts[0] . '/var', $jobUrl);
+
+                    Utils::log("Monkey-Patching \$jobUrl: {$jobUrl}", "info");
+                } else {
+                    throw new \Exception();
+                }
+            } else {
+                throw new \Exception();
+            }
+        } catch (\Exception $e) {
+            throw new \Exception("We were unable to determine your host settings, aborting.");
+        }
+    }
+
     // Download archive
     Utils::log("Downloading {$jobUrl}", "info");
     exec("wget --no-check-certificate --quiet $jobUrl -O ./{$uuid}.zip",$o, $return);
