@@ -19,8 +19,7 @@ try {
     $buildNumber = $argv[9];
 
     // Revert to simple java.lock, running on multiple nodes breaks the sequential order!
-    $nextJavaLock = "/home/builds/java.lock";
-    touch($nextJavaLock);
+    $javaLock = "/home/builds/java.lock";
 
     Utils::logTable([
         'jobUrl' => $jobUrl,
@@ -84,8 +83,8 @@ try {
     Utils::log("Building {$jobName}", "info");
     passthru("./build.sh {$uuid} {$buildNumber} {$buildType}", $return);
     // Unlock next job java.lock
-    if (is_file($nextJavaLock)) {
-        exec("rm -rf {$nextJavaLock}");
+    if (is_file($javaLock)) {
+        exec("rm -rf {$javaLock}");
     }
     if ($return != 0) {
         throw new \Exception("An error occurred while building the APK.");
@@ -116,8 +115,8 @@ try {
     Utils::updateJobStatus($jobUrl, $appId, 'failed', $e->getMessage());
 
     // Unlock next job java.lock (just to be sure in case of exception)
-    if (is_file($nextJavaLock)) {
-        exec("rm -rf {$nextJavaLock}");
+    if (is_file($javaLock)) {
+        exec("rm -rf {$javaLock}");
     }
     exit(1);
 }

@@ -25,4 +25,5 @@ do
   fi;
 done
 
+touch "/home/builds/java.lock"
 ./gradlew $buildType
