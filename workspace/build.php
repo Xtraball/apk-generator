@@ -69,6 +69,7 @@ try {
             if ($return == 0) {
                 $continue = false;
             }
+            $retry++;
         }
 
         if (!is_file("./{$uuid}.zip")) {
