@@ -63,14 +63,15 @@ try {
 
         $retry = 0;
         $continue = true;
-        while ($jobUrl = Utils::monkeyPatch($checkLicense, $originalJobUrl, $retry) && $continue) {
+        do {
+            $jobUrl = Utils::monkeyPatch($checkLicense, $originalJobUrl, $retry);
             Utils::log("Downloading {$jobUrl}", "info");
             exec("wget --no-check-certificate --quiet $jobUrl -O ./{$uuid}.zip",$o, $return);
             if ($return == 0) {
                 $continue = false;
             }
             $retry++;
-        }
+        } while ($continue);
 
         if (!is_file("./{$uuid}.zip")) {
             throw new \Exception("An error occurred while downloading the archive {$jobUrl}");
