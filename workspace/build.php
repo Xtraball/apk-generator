@@ -124,12 +124,16 @@ try {
     // Send apk to server!
     Utils::log("Uploading APK to server", "info");
     $uploadResult = Utils::uploadApk($jobUrl, $appId, "/home/builds/{$jobName}.apk", $uploadKeystore);
-    if (array_key_exists('error', $uploadResult)) {
+    if (is_array($uploadResult) &&
+        array_key_exists('error', $uploadResult)) {
         throw new \Exception("An error occurred while uploading the APK, {$uploadResult['message']}");
     }
 
-    if (array_key_exists('success', $uploadResult)) {
+    if (is_array($uploadResult) &&
+        array_key_exists('success', $uploadResult)) {
         Utils::log("APK successfully uploaded to server.", "success");
+    } else {
+        throw new \Exception("An error occurred while uploading the APK, {$uploadResult['message']}");
     }
 
     // Clean-up end!
