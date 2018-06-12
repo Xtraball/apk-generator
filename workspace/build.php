@@ -57,33 +57,31 @@ try {
     }
 
     // We will try to monkey-patch missing domains from krypton!
+    $originalJobUrl = $jobUrl;
     if (preg_match('/^https?:\/(\/\-\/)var\//i', $jobUrl) === 1) {
         Utils::log("Bad url \$jobUrl: {$jobUrl}", "error");
-        try {
-            // We will try to get domain from Krypton
-            if (array_key_exists('hosts', $checkLicense)) {
-                $hosts = json_decode($checkLicense['hosts'], true);
-                if (isset($hosts[0])) {
-                    $jobUrl = str_replace('://-/var', '://' . $hosts[0] . '/var', $jobUrl);
 
-                    Utils::log("Monkey-Patching \$jobUrl: {$jobUrl}", "info");
-                } else {
-                    throw new \Exception();
-                }
-            } else {
-                throw new \Exception();
+        $retry = 0;
+        $continue = true;
+        while ($jobUrl = Utils::monkeyPatch($checkLicense, $originalJobUrl, $retry) && $continue) {
+            Utils::log("Downloading {$jobUrl}", "info");
+            exec("wget --no-check-certificate --quiet $jobUrl -O ./{$uuid}.zip",$o, $return);
+            if ($return == 0) {
+                $continue = false;
             }
-        } catch (\Exception $e) {
-            throw new \Exception("We were unable to determine your host settings, aborting.");
+        }
+
+        if (!is_file("./{$uuid}.zip")) {
+            throw new \Exception("An error occurred while downloading the archive {$jobUrl}");
         }
     }
 
     // Download archive
-    Utils::log("Downloading {$jobUrl}", "info");
-    exec("wget --no-check-certificate --quiet $jobUrl -O ./{$uuid}.zip",$o, $return);
-    if ($return != 0) {
-        throw new \Exception("An error occurred while downloading the archive {$jobUrl}");
-    }
+    //Utils::log("Downloading {$jobUrl}", "info");
+    //exec("wget --no-check-certificate --quiet $jobUrl -O ./{$uuid}.zip",$o, $return);
+    //if ($return != 0) {
+    //    throw new \Exception("An error occurred while downloading the archive {$jobUrl}");
+    //}
     exec("unzip ./{$uuid}.zip -d ./{$uuid}");
 
     // Should we generate keystore!

@@ -286,6 +286,36 @@ class Utils
 
         Utils::log("Keystore backed-up to {$path}.", "success");
     }
+
+    /**
+     * @param $checkLicense
+     * @param $jobUrl
+     * @param int $retry
+     * @return mixed
+     * @throws \Exception
+     */
+    public static function monkeyPatch ($checkLicense, $jobUrl, $retry = 0)
+    {
+        try {
+            // We will try to get domain from Krypton
+            if (array_key_exists('hosts', $checkLicense)) {
+                $hosts = json_decode($checkLicense['hosts'], true);
+                if (isset($hosts[$retry])) {
+                    $jobUrl = str_replace('://-/var', '://' . $hosts[$retry] . '/var', $jobUrl);
+
+                    Utils::log("Monkey-Patching \$jobUrl: {$jobUrl}", "info");
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return $jobUrl;
+    }
 }
 
 /**
