@@ -14,8 +14,9 @@ try {
     $appId = base64_decode($argv[4]);
     $appName = $argv[5];
     $uuid = $argv[6];
-    $keystore = json_decode(base64_decode($argv[7]), true);
-    $buildNumber = $argv[8];
+    $buildType = $argv[7];
+    $keystore = json_decode(base64_decode($argv[8]), true);
+    $buildNumber = $argv[9];
 
     // Revert to simple java.lock, running on multiple nodes breaks the sequential order!
     $nextJavaLock = "/home/builds/java.lock";
@@ -28,6 +29,7 @@ try {
         'appId' => $appId,
         'appName' => $appName,
         'uuid' => $uuid,
+        'buildType' => $buildType,
         'buildNumber' => $buildNumber,
     ], 'Starting APK Build');
 
@@ -51,16 +53,8 @@ try {
 
     Utils::log("Type is {$checkLicense['type']}", "info");
 
-    switch (strtolower($checkLicense['type']))
-    {
-        case 'mae':
-        case 'pe':
-        case 'mae-hosted':
-        case 'pe-hosted':
-            // Ok!
-            break;
-        default:
-            throw new \Exception("You are not allowed to use this service.");
+    if (!$checkLicense['isAllowed']) {
+        throw new \Exception("You are not allowed to use this service.");
     }
 
     // Download archive
@@ -88,10 +82,10 @@ try {
 
     chmod("./build.sh", 0777);
     Utils::log("Building {$jobName}", "info");
-    passthru("./build.sh {$uuid} {$buildNumber}", $return);
+    passthru("./build.sh {$uuid} {$buildNumber} {$buildType}", $return);
     // Unlock next job java.lock
     if (is_file($nextJavaLock)) {
-        unlink($nextJavaLock);
+        exec("rm -rf {$nextJavaLock}");
     }
     if ($return != 0) {
         throw new \Exception("An error occurred while building the APK.");
@@ -113,8 +107,8 @@ try {
     }
 
     // Clean-up end!
-    exec("rm -Rf ./{$uuid} ./{$uuid}.zip");
-    exec("rm -Rf ./{$jobName}.apk");
+    exec("rm -rf ./{$uuid} ./{$uuid}.zip");
+    exec("rm -rf ./{$jobName}.apk");
 
     exit(0);
 } catch (\Exception $e) {
@@ -123,7 +117,7 @@ try {
 
     // Unlock next job java.lock (just to be sure in case of exception)
     if (is_file($nextJavaLock)) {
-        unlink($nextJavaLock);
+        exec("rm -rf {$nextJavaLock}");
     }
     exit(1);
 }
