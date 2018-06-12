@@ -75,7 +75,7 @@ try {
             $retry++;
             sleep(1);
             $safeStop++;
-        } while ($continue && ($safeStop < 10));
+        } while ($continue && ($safeStop < 10) && ($jobUrl !== false));
 
         if (!is_file("./{$uuid}.zip")) {
             throw new \Exception("An error occurred while downloading the archive {$jobUrl}");
