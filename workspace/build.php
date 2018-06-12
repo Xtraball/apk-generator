@@ -80,14 +80,15 @@ try {
         if (!is_file("./{$uuid}.zip")) {
             throw new \Exception("An error occurred while downloading the archive {$jobUrl}");
         }
+    } else {
+        // Download archive
+        Utils::log("Downloading {$jobUrl}", "info");
+        exec("wget --no-check-certificate --quiet $jobUrl -O ./{$uuid}.zip",$o, $return);
+        if ($return != 0) {
+            throw new \Exception("An error occurred while downloading the archive {$jobUrl}");
+        }
     }
 
-    // Download archive
-    //Utils::log("Downloading {$jobUrl}", "info");
-    //exec("wget --no-check-certificate --quiet $jobUrl -O ./{$uuid}.zip",$o, $return);
-    //if ($return != 0) {
-    //    throw new \Exception("An error occurred while downloading the archive {$jobUrl}");
-    //}
     exec("unzip ./{$uuid}.zip -d ./{$uuid}");
 
     // Should we generate keystore!
