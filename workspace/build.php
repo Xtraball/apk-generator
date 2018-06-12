@@ -63,7 +63,7 @@ try {
 
         $retry = 0;
         $continue = true;
-        $safeStop = 10;
+        $safeStop = 0;
         do {
             $jobUrl = Utils::monkeyPatch($checkLicense, $originalJobUrl, $retry);
             Utils::log("Downloading {$jobUrl}", "info");
