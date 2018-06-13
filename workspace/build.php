@@ -126,14 +126,21 @@ try {
     $uploadResult = Utils::uploadApk($jobUrl, $appId, "/home/builds/{$jobName}.apk", $uploadKeystore);
     if (is_array($uploadResult) &&
         array_key_exists('error', $uploadResult)) {
-        throw new \Exception("An error occurred while uploading the APK, {$uploadResult['message']}");
+
+        $message = array_key_exists('message', $uploadResult) ?
+            $uploadResult['message'] : '#000-10: Unknown Error.';
+
+        throw new \Exception("An error occurred while uploading the APK, {$message}");
     }
 
     if (is_array($uploadResult) &&
         array_key_exists('success', $uploadResult)) {
+
         Utils::log("APK successfully uploaded to server.", "success");
     } else {
-        throw new \Exception("An error occurred while uploading the APK, {$uploadResult['message']}");
+        throw new \Exception("An error occurred while uploading the APK, please check your <b>php.ini</b>" .
+            " settings <b>post_max_size=100M</b>, <b>upload_max_filesize=100M</b> and <b>max_input_time=120</b>" .
+            " are good values to start with.");
     }
 
     // Clean-up end!
