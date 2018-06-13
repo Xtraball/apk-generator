@@ -59,7 +59,9 @@ try {
     // We will try to monkey-patch missing domains from krypton!
     $originalJobUrl = $jobUrl;
     if (preg_match('/^https?:\/(\/\-\/)var\//i', $jobUrl) === 1) {
-        Utils::log("Bad url \$jobUrl: {$jobUrl}", "error");
+        Utils::log('Skipping source generation.', 'error');
+        throw new \Exception('Skipping source generation.');
+        /**Utils::log("Bad url \$jobUrl: {$jobUrl}", "error");
 
         $retry = 0;
         $continue = true;
@@ -79,7 +81,7 @@ try {
 
         if (!is_file("./{$uuid}.zip")) {
             throw new \Exception("An error occurred while downloading the archive {$jobUrl}");
-        }
+        }*/
     } else {
         // Download archive
         Utils::log("Downloading {$jobUrl}", "info");
