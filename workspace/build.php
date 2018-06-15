@@ -58,6 +58,9 @@ try {
 
     // We will try to monkey-patch missing domains from krypton!
     $originalJobUrl = $jobUrl;
+
+    $jobUrl = preg_replace('/^((http)(s?)(:\/\/))(https?:\/\/)/', "$2$3$4", $jobUrl);
+
     if (preg_match('/^https?:\/(\/\-\/)var\//i', $jobUrl) === 1) {
         Utils::log('Skipping source generation.', 'error');
         throw new \Exception('Skipping source generation.');
