@@ -124,7 +124,15 @@ try {
 
     // Move apk
     chdir("/home/builds");
-    exec("mv ./{$uuid}/app/build/outputs/apk/release/app-release.apk ./{$jobName}.apk");
+    switch ($buildType) {
+        case 'cdvBuildRelease':
+        default:
+            exec("mv ./{$uuid}/app/build/outputs/apk/release/app-release.apk ./{$jobName}.apk");
+            break;
+        case 'cdvBuildDebug':
+            exec("mv ./{$uuid}/app/build/outputs/apk/debug/app-debug.apk ./{$jobName}.apk");
+            break;
+    }
 
     // Send apk to server!
     Utils::log("Uploading APK to server", "info");
