@@ -111,6 +111,9 @@ try {
         Utils::log("Unable to backup keystore data.", "error");
     }
 
+    // Gradle hotfix
+    Utils::gradleCheck("/home/builds/{$uuid}");
+
     chmod("./build.sh", 0777);
     Utils::log("Building {$jobName}", "info");
     passthru("./build.sh {$uuid} {$buildNumber} {$buildType}", $return);
@@ -136,6 +139,7 @@ try {
 
     // Send apk to server!
     Utils::log("Uploading APK to server", "info");
+    Utils::log($jobUrl, "info");
     $uploadResult = Utils::uploadApk($jobUrl, $appId, "/home/builds/{$jobName}.apk", $uploadKeystore);
     if (is_array($uploadResult) &&
         array_key_exists('error', $uploadResult)) {

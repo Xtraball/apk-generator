@@ -316,6 +316,29 @@ class Utils
 
         return $jobUrl;
     }
+
+    /**
+     * @param $path
+     */
+    public static function gradleCheck ($path)
+    {
+        try {
+            $baseBuildGradlePath = "{$path}/Push/base-build.gradle";
+            $baseBuildGradle = file_get_contents($baseBuildGradlePath);
+            $baseBuildGradle = str_replace("com.android.tools.build:gradle:+", "com.android.tools.build:gradle:3.3.0", $baseBuildGradle);
+            file_put_contents($baseBuildGradlePath, $baseBuildGradle);
+
+            $pluginBuildGradlePath = "{$path}/cordova/lib/plugin-build.gradle";
+            $pluginBuildGradle = file_get_contents($pluginBuildGradlePath);
+            $pluginBuildGradle = str_replace("com.android.tools.build:gradle:1.0.0+", "com.android.tools.build:gradle:3.3.0", $pluginBuildGradle);
+            file_put_contents($pluginBuildGradlePath, $pluginBuildGradle);
+
+            Utils::log("Gradle-Check \$path: {$path} SUCCESS", "success");
+
+        } catch (\Exception $e) {
+            Utils::log("Gradle-Check \$path: {$path} ERROR", "error");
+        }
+    }
 }
 
 /**
