@@ -3,6 +3,7 @@
 folder=${1}
 buildNumber=${2}
 buildType=${3:-cdvBuildRelease}
+bundleType=${4:-bundleRelease}
 
 export JAVA_HOME=$(java -XshowSettings:properties -version 2>&1 > /dev/null | grep 'java.home' |cut -d '=' -f 2 |xargs)
 export ANDROID_HOME=/home/builds/android-sdk
@@ -27,3 +28,4 @@ done
 
 touch "/home/builds/java.lock"
 ./gradlew $buildType
+./gradlew $bundleType

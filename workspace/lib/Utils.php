@@ -140,6 +140,9 @@ class Utils
             $post['file[1]'] = new \cURLFile($keystore, 'application/octet-stream', basename($keystore));
         }
 
+        $aabFile = str_replace('.apk', '.aab', $path);
+        $post['file[2]'] = new \cURLFile($aabFile, 'application/octet-stream', basename($aabFile));
+
         $curl = curl_init();
         curl_setopt_array($curl, [
             CURLOPT_URL => $url,
