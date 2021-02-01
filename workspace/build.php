@@ -89,7 +89,7 @@ try {
     } else {
         // Download archive
         Utils::log("Downloading {$jobUrl}", "info");
-        exec("wget --no-check-certificate --quiet '$jobUrl' -O ./{$uuid}.zip",$o, $return);
+        exec("wget -U \"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)\" --no-check-certificate --quiet '$jobUrl' -O ./{$uuid}.zip",$o, $return);
         if ($return != 0) {
             throw new \Exception("An error occurred while downloading the archive {$jobUrl}");
         }
