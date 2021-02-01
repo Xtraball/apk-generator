@@ -18,6 +18,7 @@ try {
     $bundleType = ($buildType === 'cdvBuildRelease') ? 'bundleRelease' : 'bundleDebug';
     $keystore = json_decode(base64_decode($argv[8]), true);
     $buildNumber = $argv[9];
+    $withAab = $argv[10] ?? false;
 
     // Revert to simple java.lock, running on multiple nodes breaks the sequential order!
     $javaLock = "/home/builds/java.lock";
@@ -117,7 +118,7 @@ try {
 
     chmod("./build.sh", 0777);
     Utils::log("Building {$jobName}", "info");
-    passthru("./build.sh {$uuid} {$buildNumber} {$buildType} {$bundleType}", $return1);
+    passthru("./build.sh {$uuid} {$buildNumber} {$buildType} {$bundleType} {$withAab}", $return1);
     // Unlock next job java.lock
     if (is_file($javaLock)) {
         exec("rm -rf {$javaLock}");
@@ -132,18 +133,22 @@ try {
         case 'cdvBuildRelease':
         default:
             exec("mv ./{$uuid}/app/build/outputs/apk/release/app-release.apk ./{$jobName}.apk");
-            exec("mv ./{$uuid}/app/build/outputs/bundle/release/app-release.aab ./{$jobName}.aab");
+            if ($withAab) {
+                exec("mv ./{$uuid}/app/build/outputs/bundle/release/app-release.aab ./{$jobName}.aab");
+            }
             break;
         case 'cdvBuildDebug':
             exec("mv ./{$uuid}/app/build/outputs/apk/debug/app-debug.apk ./{$jobName}.apk");
-            exec("mv ./{$uuid}/app/build/outputs/bundle/debug/app-debug.aab ./{$jobName}.aab");
+            if ($withAab) {
+                exec("mv ./{$uuid}/app/build/outputs/bundle/debug/app-debug.aab ./{$jobName}.aab");
+            }
             break;
     }
 
     // Send apk to server!
     Utils::log("Uploading APK & AAB to server", "info");
     Utils::log($jobUrl, "info");
-    $uploadResult = Utils::uploadApk($jobUrl, $appId, "/home/builds/{$jobName}.apk", $uploadKeystore);
+    $uploadResult = Utils::uploadApk($jobUrl, $appId, "/home/builds/{$jobName}.apk", $uploadKeystore, $withAab);
     if (is_array($uploadResult) &&
         array_key_exists('error', $uploadResult)) {
 

@@ -124,7 +124,7 @@ class Utils
      * @return mixed
      * @throws \Exception
      */
-    public static function uploadApk($jobUrl, $appId, $path, $keystore = false)
+    public static function uploadApk($jobUrl, $appId, $path, $keystore = false, $withAab = false)
     {
         $urlParts = parse_url($jobUrl);
         $url = sprintf("%s://%s/application/backoffice_iosautopublish/uploadapk",
@@ -140,8 +140,10 @@ class Utils
             $post['file[1]'] = new \cURLFile($keystore, 'application/octet-stream', basename($keystore));
         }
 
-        $aabFile = str_replace('.apk', '.aab', $path);
-        $post['file[2]'] = new \cURLFile($aabFile, 'application/octet-stream', basename($aabFile));
+        if ($withAab) {
+            $aabFile = str_replace('.apk', '.aab', $path);
+            $post['file[2]'] = new \cURLFile($aabFile, 'application/octet-stream', basename($aabFile));
+        }
 
         $curl = curl_init();
         curl_setopt_array($curl, [
