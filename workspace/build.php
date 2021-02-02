@@ -119,7 +119,7 @@ try {
 
     chmod("./build.sh", 0777);
     Utils::log("Building {$jobName}", "info");
-    passthru("./build.sh {$uuid} {$buildNumber} {$buildType} {$bundleType} {$withAab}", $return1);
+    passthru("./build.sh {$uuid} {$buildNumber} {$buildType} {$bundleType}", $return1);
     // Unlock next job java.lock
     if (is_file($javaLock)) {
         exec("rm -rf {$javaLock}");
