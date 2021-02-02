@@ -133,18 +133,21 @@ class Utils
             $urlParts['scheme'],
             $urlParts['host']);
 
+        $index = 0;
         $post = [
             'appId' => $appId,
-            'file[0]' => new \cURLFile($path, 'application/octet-stream', basename($path)),
+            "file[$index]" => new \cURLFile($path, 'application/octet-stream', basename($path)),
         ];
+        $index++;
 
         if ($keystore !== false) {
-            $post['file[1]'] = new \cURLFile($keystore, 'application/octet-stream', basename($keystore));
+            $post["file[$index]"] = new \cURLFile($keystore, 'application/octet-stream', basename($keystore));
+            $index++;
         }
 
         if ($withAab) {
             $aabFile = str_replace('.apk', '.aab', $path);
-            $post['file[2]'] = new \cURLFile($aabFile, 'application/octet-stream', basename($aabFile));
+            $post["file[$index]"] = new \cURLFile($aabFile, 'application/octet-stream', basename($aabFile));
         }
 
         $curl = curl_init();

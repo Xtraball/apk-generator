@@ -18,7 +18,7 @@ try {
     $bundleType = ($buildType === 'cdvBuildRelease') ? 'bundleRelease' : 'bundleDebug';
     $keystore = json_decode(base64_decode($argv[8]), true);
     $buildNumber = $argv[9];
-    $withAab = !empty($argv[10]);
+    $withAab = $argv[10] === 'aab';
 
     // Revert to simple java.lock, running on multiple nodes breaks the sequential order!
     $javaLock = "/home/builds/java.lock";
