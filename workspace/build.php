@@ -32,7 +32,8 @@ try {
         'uuid' => $uuid,
         'buildType' => $buildType,
         'buildNumber' => $buildNumber,
-    ], 'Starting APK Build');
+        'withAab' => $withAab,
+    ], 'Starting APK/AAB Build');
 
     Utils::logTable($keystore, 'Keystore informations');
 
