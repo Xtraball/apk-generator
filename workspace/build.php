@@ -59,42 +59,18 @@ try {
         throw new \Exception("You are not allowed to use this service.");
     }
 
-    // We will try to monkey-patch missing domains from krypton!
-    $originalJobUrl = $jobUrl;
-
     $jobUrl = preg_replace('/^((http)(s?)(:\/\/))(https?:\/\/)/', "$2$3$4", $jobUrl);
 
     if (preg_match('/^https?:\/(\/\-\/)var\//i', $jobUrl) === 1) {
         Utils::log('Skipping source generation.', 'error');
         throw new \Exception('Skipping source generation.');
-        /**Utils::log("Bad url \$jobUrl: {$jobUrl}", "error");
+    }
 
-        $retry = 0;
-        $continue = true;
-        $safeStop = 0;
-        do {
-            $jobUrl = Utils::monkeyPatch($checkLicense, $originalJobUrl, $retry);
-            Utils::log("Downloading {$jobUrl}", "info");
-            exec("wget --no-check-certificate --quiet $jobUrl -O ./{$uuid}.zip",$o, $return);
-            var_dump($return);
-            if ($return == 0) {
-                $continue = false;
-            }
-            $retry++;
-            sleep(1);
-            $safeStop++;
-        } while ($continue && ($safeStop < 10) && ($jobUrl !== false));
-
-        if (!is_file("./{$uuid}.zip")) {
-            throw new \Exception("An error occurred while downloading the archive {$jobUrl}");
-        }*/
-    } else {
-        // Download archive
-        Utils::log("Downloading {$jobUrl}", "info");
-        exec("wget -U \"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)\" --no-check-certificate --quiet '$jobUrl' -O ./{$uuid}.zip",$o, $return);
-        if ($return != 0) {
-            throw new \Exception("An error occurred while downloading the archive {$jobUrl}");
-        }
+    // Download archive
+    Utils::log("Downloading {$jobUrl}", "info");
+    exec("wget -U \"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)\" --no-check-certificate --quiet '$jobUrl' -O ./{$uuid}.zip",$o, $return);
+    if ($return != 0) {
+        throw new \Exception("An error occurred while downloading the archive {$jobUrl}");
     }
 
     exec("unzip ./{$uuid}.zip -d ./{$uuid}");
@@ -113,9 +89,6 @@ try {
         // We don't fail on backup issue, but we log it!
         Utils::log("Unable to backup keystore data.", "error");
     }
-
-    // Gradle hotfix
-    Utils::gradleCheck("/home/builds/{$uuid}");
 
     chmod("./build.sh", 0777);
     Utils::log("Building {$jobName}", "info");
