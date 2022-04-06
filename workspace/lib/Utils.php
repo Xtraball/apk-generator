@@ -61,12 +61,12 @@ class Utils
                 break;
             case 'info':
             default:
-                    echo sprintf("%s %s", color('[INFO]', 'blue'),
-                            $message) . "\n";
+                echo sprintf("%s %s", color('[INFO]', 'blue'),
+                        $message) . "\n";
                 break;
             case 'error':
-                    echo sprintf("%s %s", color('[ERROR]', 'red'),
-                            color($message, 'red')) . "\n";
+                echo sprintf("%s %s", color('[ERROR]', 'red'),
+                        color($message, 'red')) . "\n";
                 break;
             case 'warning':
                 echo sprintf("%s %s", color('[WARNING]', 'yellow'),
@@ -85,7 +85,7 @@ class Utils
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-            CURLOPT_URL => "https://krypton.siberiancms.com/siberian-licenses/check",
+            CURLOPT_URL => "https://services.siberiancms.com/api/external/license/check",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -252,7 +252,7 @@ class Utils
         exec($command, $o, $return);
 
         if ($return !== 0) {
-            throw new \Exception('Unable to generate the keystore, '. print_r($keystore, true));
+            throw new \Exception('Unable to generate the keystore, ' . print_r($keystore, true));
         }
     }
 
@@ -304,7 +304,7 @@ class Utils
      * @return mixed
      * @throws \Exception
      */
-    public static function monkeyPatch ($checkLicense, $jobUrl, $retry = 0)
+    public static function monkeyPatch($checkLicense, $jobUrl, $retry = 0)
     {
         try {
             // We will try to get domain from Krypton
@@ -326,6 +326,29 @@ class Utils
 
         return $jobUrl;
     }
+
+    /**
+     * @param $path
+     */
+    public static function gradleCheck($path)
+    {
+        try {
+            $baseBuildGradlePath = "{$path}/Push/base-build.gradle";
+            $baseBuildGradle = file_get_contents($baseBuildGradlePath);
+            $baseBuildGradle = str_replace("com.android.tools.build:gradle:+", "com.android.tools.build:gradle:3.3.0", $baseBuildGradle);
+            file_put_contents($baseBuildGradlePath, $baseBuildGradle);
+
+            $pluginBuildGradlePath = "{$path}/cordova/lib/plugin-build.gradle";
+            $pluginBuildGradle = file_get_contents($pluginBuildGradlePath);
+            $pluginBuildGradle = str_replace("com.android.tools.build:gradle:1.0.0+", "com.android.tools.build:gradle:3.3.0", $pluginBuildGradle);
+            file_put_contents($pluginBuildGradlePath, $pluginBuildGradle);
+
+            Utils::log("Gradle-Check \$path: {$path} SUCCESS", "success");
+
+        } catch (\Exception $e) {
+            Utils::log("Gradle-Check \$path: {$path} ERROR", "error");
+        }
+    }
 }
 
 /**
@@ -336,7 +359,7 @@ class Utils
  * @param null $bg
  * @return string
  */
-function color ($string, $fg = null, $bg = null)
+function color($string, $fg = null, $bg = null)
 {
     return \Cli\Colors::initColoredString($string, $fg, $bg);
 }
