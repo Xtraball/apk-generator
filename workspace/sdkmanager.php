@@ -78,10 +78,10 @@ if ($run) {
     file_put_contents($androidSdkPath . "/y.txt",
         implode("\n", array_fill(0, 100, 'y')));
     lexec($androidSdkPath . '/tools/bin/sdkmanager ' .
-        '"build-tools;30.0.3" ' .
+        '"build-tools;33.0.0-rc2" ' .
         '"platform-tools" ' .
         '"tools" ' .
-        '"platforms;android-30" ' .
+        '"platforms;android-31" ' .
         '"extras;android;m2repository" ' .
         '"extras;google;m2repository" ' .
         '"extras;google;google_play_services" ' .
