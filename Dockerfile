@@ -1,4 +1,4 @@
-FROM debian:11
+FROM debian:9
 
 MAINTAINER dev@xtraball.com
 
