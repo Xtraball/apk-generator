@@ -238,7 +238,7 @@ class Utils
      * @param string $keystorePath
      * @throws \Exception
      */
-    public static function generateKeystore($keystore, $keystorePath = './keystore.pks')
+    public static function generateKeystore($keystore, $uuid, $keystorePath = './keystore.pks')
     {
         $command = sprintf("keytool -genkeypair -keyalg RSA -noprompt -alias {$keystore['alias']} \
                                       -dname 'CN={$keystore['organization']}, O={$keystore['organization']}' \
@@ -250,7 +250,7 @@ class Utils
         Utils::log("Generating keystore!", 'info');
 
         // Monkey patching properties
-        exec("sed -i s/{$keystore['keypass']}/{$keystore['storepass']}/g ./release-signing.properties");
+        exec("sed -i s/{$keystore['keypass']}/{$keystore['storepass']}/g /home/builds/{$uuid}/release-signing.properties");
 
         exec($command, $o, $return);
 

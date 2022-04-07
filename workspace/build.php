@@ -78,7 +78,7 @@ try {
     // Should we generate keystore!
     $uploadKeystore = false;
     if ($keystore['generate'] === true) {
-        Utils::generateKeystore($keystore, "/home/builds/{$uuid}/keystore.pks");
+        Utils::generateKeystore($keystore, $uuid, "/home/builds/{$uuid}/keystore.pks");
         $uploadKeystore = "/home/builds/{$uuid}/keystore.pks";
     }
 
