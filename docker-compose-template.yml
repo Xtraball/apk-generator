@@ -5,7 +5,7 @@ services:
     restart: always
     image: apkgenerator
     ports:
-      - 2122:22
+      - "20000:22"
     volumes:
       - ./workspace:/home/builds
     build:
