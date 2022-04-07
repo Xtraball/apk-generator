@@ -4,10 +4,8 @@ services:
   apkgenerator:
     restart: always
     image: apkgenerator
-    environment:
-      - JENKINS_URL=changeme
-      - JENKINS_SLAVE=changeme
-      - JENKINS_SECRET=changeme
+    ports:
+      - 2122:22
     volumes:
       - ./workspace:/home/builds
     build:
