@@ -244,7 +244,7 @@ class Utils
                                       -dname 'CN={$keystore['organization']}, O={$keystore['organization']}' \
                                       -keystore {$keystorePath} \
                                       -storepass {$keystore['storepass']} \
-                                      -keypass {$keystore['keypass']} \
+                                      -keypass {$keystore['storepass']} \
                                       -validity 36135");
 
         Utils::log("Generating keystore!", 'info');
