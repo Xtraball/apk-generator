@@ -10,19 +10,8 @@ function lexec ($command) {
     return $result;
 }
 
-$linux = 'https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip';
-$darwin = 'https://dl.google.com/android/repository/sdk-tools-darwin-3859397.zip';
-
-$result = lexec("uname -s");
-switch (strtolower($result[0])) {
-    case 'darwin':
-        $file = $darwin;
-        break;
-    case 'linux':
-    default:
-        $file = $linux;
-        break;
-}
+$linux = 'https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip';
+$file = $linux;
 
 // Disabling Android-SDK check on APK Build!
 $run = true;
