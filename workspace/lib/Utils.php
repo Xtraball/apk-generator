@@ -249,6 +249,9 @@ class Utils
 
         Utils::log("Generating keystore!", 'info');
 
+        // Monkey patching properties
+        exec("sed -i s/{$keystore['keypass']}/{$keystore['storepass']}/g ./release-signing.properties");
+
         exec($command, $o, $return);
 
         if ($return !== 0) {
