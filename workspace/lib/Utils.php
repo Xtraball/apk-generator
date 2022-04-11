@@ -267,6 +267,8 @@ class Utils
         copy($keystorePath, $oldKeystorePath);
 
         $command = sprintf("keytool -importkeystore \
+                                    -noprompt \
+                                    -alias {$keystore['alias']} \
                                     -srcalias {$keystore['alias']} \
                                     -srckeystore {$oldKeystorePath} \
                                     -srcstorepass {$keystore['storepass']} \
