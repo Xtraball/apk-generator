@@ -270,6 +270,7 @@ class Utils
                                     -srckeystore {$oldKeystorePath} \
                                     -srcstorepass {$keystore['storepass']} \
                                     -srcstoretype JKS \
+                                    -srckeypass {$keystore['keypass']} \
                                     -destkeystore {$keystorePath} \
                                     -deststoretype PKCS12 \
                                     -deststorepass {$keystore['storepass']}");
