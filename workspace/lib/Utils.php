@@ -249,14 +249,61 @@ class Utils
 
         Utils::log("Generating keystore!", 'info');
 
-        // Monkey patching properties
-        exec("sed -i s/{$keystore['keypass']}/{$keystore['storepass']}/g /home/builds/{$uuid}/release-signing.properties");
-
         exec($command, $o, $return);
 
         if ($return !== 0) {
             throw new \Exception('Unable to generate the keystore, ' . print_r($keystore, true));
         }
+    }
+
+    /**
+     * @param $keystore
+     * @param string $keystorePath
+     * @throws \Exception
+     */
+    public static function convertKeystore($keystore, $uuid, $keystorePath = './keystore.pks')
+    {
+        $oldKeystorePath = str_replace('.pks', '.old.pks', $keystorePath);
+        copy($keystorePath, $oldKeystorePath);
+
+        $command = sprintf("keytool -importkeystore \
+                                    -srckeystore {$oldKeystorePath} \
+                                    -srcstorepass {$keystore['storepass']} \
+                                    -srcstoretype JKS \
+                                    -destkeystore {$keystorePath} \
+                                    -deststoretype PKCS12 \
+                                    -deststorepass {$keystore['storepass']}");
+
+        Utils::log("Generating keystore!", 'info');
+
+        exec($command, $o, $return);
+
+        if ($return !== 0) {
+            throw new \Exception('Unable to convert the keystore, ' . print_r($keystore, true));
+        }
+    }
+
+    /**
+     * @param $keystore
+     * @param string $keystorePath
+     * @return bool
+     */
+    public static function isPks($keystore, $keystorePath = './keystore.pks')
+    {
+        exec("keytool -list -keystore {$keystorePath} -storepass {$keystore['storepass']}", $o);
+        $output = implode(' ', $o);
+
+        return (stripos($output, "Keystore type: JKS") !== false);
+    }
+
+    /**
+     * @param $keystore
+     * @param $uuid
+     */
+    public static function patchProperties ($keystore, $uuid)
+    {
+        // Monkey patching properties
+        exec("sed -i s/{$keystore['keypass']}/{$keystore['storepass']}/g /home/builds/{$uuid}/release-signing.properties");
     }
 
     /**

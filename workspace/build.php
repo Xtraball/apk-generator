@@ -76,11 +76,18 @@ try {
     exec("unzip ./{$uuid}.zip -d ./{$uuid}");
 
     // Should we generate keystore!
-    $uploadKeystore = false;
     if ($keystore['generate'] === true) {
         Utils::generateKeystore($keystore, $uuid, "/home/builds/{$uuid}/keystore.pks");
-        $uploadKeystore = "/home/builds/{$uuid}/keystore.pks";
+    } else {
+        // Try to convert it if required
+        if (Utils::isPks($keystore, "/home/builds/{$uuid}/keystore.pks")) {
+            Utils::convertKeystore($keystore, $uuid, "/home/builds/{$uuid}/keystore.pks");
+        }
     }
+    $uploadKeystore = "/home/builds/{$uuid}/keystore.pks";
+
+    // Monkey patch properties
+    Utils::patchProperties($keystore, $uuid);
 
     // Backup keystore!
     try {
