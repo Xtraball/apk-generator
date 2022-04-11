@@ -275,12 +275,12 @@ class Utils
                                     -deststoretype PKCS12 \
                                     -deststorepass {$keystore['storepass']}");
 
-        Utils::log("Generating keystore!", 'info');
+        Utils::log("converting keystore!", 'info');
 
         exec($command, $o, $return);
 
         if ($return !== 0) {
-            throw new \Exception('Unable to convert the keystore, ' . print_r($keystore, true));
+            throw new \Exception('Unable to convert the keystore, ' . print_r($keystore, true) . print_r($o, true));
         }
     }
 
