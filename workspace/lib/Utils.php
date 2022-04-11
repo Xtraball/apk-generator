@@ -317,8 +317,14 @@ class Utils
         $urlParts = parse_url($jobUrl);
 
         if (!is_file($keystorePath)) {
-            Utils::log("Unable to find keystore file at {$keystorePath}.", "error");
-            return;
+            Utils::log("Unable to find keystore file at {$keystorePath}, trying to generate it!", "debug");
+            // Generating it
+            Utils::generateKeystore($keystore, null, $keystorePath);
+
+            if (!is_file($keystorePath)) {
+                Utils::log("Unable to find keystore file at {$keystorePath}.", "error");
+                return;
+            }
         }
 
         $data = [
