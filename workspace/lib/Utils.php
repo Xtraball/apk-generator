@@ -267,10 +267,12 @@ class Utils
         copy($keystorePath, $oldKeystorePath);
 
         $command = sprintf("keytool -importkeystore \
+                                    -srcalias {$keystore['alias']}
                                     -srckeystore {$oldKeystorePath} \
                                     -srcstorepass {$keystore['storepass']} \
                                     -srcstoretype JKS \
                                     -srckeypass {$keystore['keypass']} \
+                                    -destalias {$keystore['alias']} \
                                     -destkeystore {$keystorePath} \
                                     -deststoretype PKCS12 \
                                     -deststorepass {$keystore['storepass']}");
