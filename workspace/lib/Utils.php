@@ -284,7 +284,7 @@ class Utils
         exec($command, $o, $return);
 
         if ($return !== 0) {
-            throw new \Exception('Unable to convert the keystore, ' . print_r($keystore, true) . print_r($o, true));
+            Utils::log('Unable to convert the keystore (it is probably ok), ' . print_r($keystore, true) . print_r($o, true), 'info');
         }
     }
 
