@@ -240,7 +240,7 @@ class Utils
      */
     public static function generateKeystore($keystore, $uuid, $keystorePath = './keystore.pks')
     {
-        $command = sprintf("keytool -genkeypair -keyalg RSA -noprompt -alias {$keystore['alias']} \
+        $command = sprintf("keytool -genkeypair -keyalg RSA -noprompt -alias \"{$keystore['alias']}\" \
                                       -dname 'CN={$keystore['organization']}, O={$keystore['organization']}' \
                                       -keystore {$keystorePath} \
                                       -storepass {$keystore['storepass']} \
@@ -268,13 +268,13 @@ class Utils
 
         $command = sprintf("keytool -importkeystore \
                                     -noprompt \
-                                    -alias {$keystore['alias']} \
-                                    -srcalias {$keystore['alias']} \
+                                    -alias \"{$keystore['alias']}\" \
+                                    -srcalias \"{$keystore['alias']}\" \
                                     -srckeystore {$oldKeystorePath} \
                                     -srcstorepass {$keystore['storepass']} \
                                     -srcstoretype JKS \
                                     -srckeypass {$keystore['keypass']} \
-                                    -destalias {$keystore['alias']} \
+                                    -destalias \"{$keystore['alias']}\" \
                                     -destkeystore {$keystorePath} \
                                     -deststoretype PKCS12 \
                                     -deststorepass {$keystore['storepass']}");
