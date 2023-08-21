@@ -10,7 +10,8 @@ function lexec ($command) {
     return $result;
 }
 
-$linux = 'https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip';
+//$linux = 'https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip';
+$linux = 'https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip';
 $file = $linux;
 
 // Disabling Android-SDK check on APK Build!
@@ -33,8 +34,8 @@ if ($run) {
     }
 
     // Ensure we have the latest tools!
-    if (!is_dir($androidSdkPath . '/tools') ||
-        !is_file($androidSdkPath . '/tools/bin/sdkmanager')) {
+    if (!is_dir($androidSdkPath . '/cmdline-tools') ||
+        !is_file($androidSdkPath . '/cmdline-tools/bin/sdkmanager')) {
         lexec("rm -Rf '" . $androidSdkPath . "'");
         if (!@file_exists($androidSdkPath)) {
             mkdir($androidSdkPath, 0777, true);
@@ -66,7 +67,7 @@ if ($run) {
 
     file_put_contents($androidSdkPath . "/y.txt",
         implode("\n", array_fill(0, 100, 'y')));
-    lexec($androidSdkPath . '/tools/bin/sdkmanager ' .
+    lexec($androidSdkPath . '/cmdline-tools/bin/sdkmanager --sdk_root=' . $androidSdkPath . ' ' .
         '"build-tools;30.0.3" ' .
         '"build-tools;33.0.2" ' .
         '"platform-tools" ' .
