@@ -10,8 +10,8 @@ function lexec ($command) {
     return $result;
 }
 
-//$linux = 'https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip';
-$linux = 'https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip';
+$linux = 'https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip';
+//$linux = 'https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip';
 $file = $linux;
 
 // Disabling Android-SDK check on APK Build!
