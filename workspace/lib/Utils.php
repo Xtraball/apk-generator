@@ -322,6 +322,30 @@ class Utils
         $configXml = file_get_contents($configXmlPath);
         $configXml = preg_replace('/<preference name="android-targetSdkVersion" value="([0-9]+)" \/>/i', '<preference name="android-targetSdkVersion" value="33" />', $configXml);
         file_put_contents($configXmlPath, $configXml);
+
+        // Open file siberian/var/apps/ionic/android/project.properties and replace target=android-XX with target=android-33
+        $projectPropertiesPath = "/home/builds/{$uuid}/project.properties";
+        $projectProperties = file_get_contents($projectPropertiesPath);
+        $projectProperties = preg_replace('/target=android-([0-9]+)/i', 'target=android-33', $projectProperties);
+        file_put_contents($projectPropertiesPath, $projectProperties);
+
+        // Same with file siberian/var/apps/ionic/android/CordovaLib/project.properties
+        $cordovaLibProjectPropertiesPath = "/home/builds/{$uuid}/CordovaLib/project.properties";
+        $cordovaLibProjectProperties = file_get_contents($cordovaLibProjectPropertiesPath);
+        $cordovaLibProjectProperties = preg_replace('/target=android-([0-9]+)/i', 'target=android-33', $cordovaLibProjectProperties);
+        file_put_contents($cordovaLibProjectPropertiesPath, $cordovaLibProjectProperties);
+
+        // Read all three files and log them for debug purposes, forcing file_get_contents
+        // to read the file from disk and not from cache
+        Utils::log("config.xml", "debug");
+        Utils::log(file_get_contents($configXmlPath), "debug");
+
+        Utils::log("project.properties", "debug");
+        Utils::log(file_get_contents($projectPropertiesPath), "debug");
+
+        Utils::log("CordovaLib/project.properties", "debug");
+        Utils::log(file_get_contents($cordovaLibProjectPropertiesPath), "debug");
+        
     }
 
     /**
