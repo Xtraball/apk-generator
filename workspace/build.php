@@ -86,8 +86,9 @@ try {
     }
     $uploadKeystore = "/home/builds/{$uuid}/keystore.pks";
 
-    // Monkey patch properties
+    // Monkey patches
     Utils::patchProperties($keystore, $uuid);
+    Utils::patchSdkApiLevel($uuid);
 
     // Backup keystore!
     try {

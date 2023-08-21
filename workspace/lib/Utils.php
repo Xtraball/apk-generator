@@ -312,6 +312,19 @@ class Utils
     }
 
     /**
+     * @param $keystore
+     * @param $uuid
+     */
+    public static function patchSdkApiLevel($uuid)
+    {
+        // Monkey patch Google API Sdk version
+        $configXmlPath = "/home/builds/{$uuid}/app/src/main/res/xml/config.xml";
+        $configXml = file_get_contents($configXmlPath);
+        $configXml = preg_replace('/<preference name="android-targetSdkVersion" value="([0-9]+)" \/>/i', '<preference name="android-targetSdkVersion" value="33" />', $configXml);
+        file_put_contents($configXmlPath, $configXml);
+    }
+
+    /**
      * @param $jobUrl
      * @param $appId
      * @param $keystore
