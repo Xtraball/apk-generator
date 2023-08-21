@@ -335,6 +335,12 @@ class Utils
         $cordovaLibProjectProperties = preg_replace('/target=android-([0-9]+)/i', 'target=android-33', $cordovaLibProjectProperties);
         file_put_contents($cordovaLibProjectPropertiesPath, $cordovaLibProjectProperties);
 
+        // Same with file siberian/var/apps/ionic/android/cdv-gradle-config.json   "SDK_VERSION": XX, with   "SDK_VERSION": 33,
+        $cdvGradleConfigPath = "/home/builds/{$uuid}/cdv-gradle-config.json";
+        $cdvGradleConfig = file_get_contents($cdvGradleConfigPath);
+        $cdvGradleConfig = preg_replace('/"SDK_VERSION": ([0-9]+)/i', '"SDK_VERSION": 33', $cdvGradleConfig);
+        file_put_contents($cdvGradleConfigPath, $cdvGradleConfig);
+
         // Read all three files and log them for debug purposes, forcing file_get_contents
         // to read the file from disk and not from cache
         Utils::log("config.xml", "debug");
@@ -345,7 +351,10 @@ class Utils
 
         Utils::log("CordovaLib/project.properties", "debug");
         Utils::log(file_get_contents($cordovaLibProjectPropertiesPath), "debug");
-        
+
+        Utils::log("cdv-gradle-config.json", "debug");
+        Utils::log(file_get_contents($cdvGradleConfigPath), "debug");
+
     }
 
     /**
