@@ -34,8 +34,8 @@ if ($run) {
     }
 
     // Ensure we have the latest tools!
-    if (!is_dir($androidSdkPath . '/cmdline-tools') ||
-        !is_file($androidSdkPath . '/cmdline-tools/bin/sdkmanager')) {
+    if (!is_dir($androidSdkPath . '/tools') ||
+        !is_file($androidSdkPath . '/tools/bin/sdkmanager')) {
         lexec("rm -Rf '" . $androidSdkPath . "'");
         if (!@file_exists($androidSdkPath)) {
             mkdir($androidSdkPath, 0777, true);
