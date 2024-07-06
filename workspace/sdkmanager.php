@@ -39,8 +39,8 @@ if ($run) {
         !is_file($toolsPath . '/cmdline-tools/bin/sdkmanager')) {
         lexec("rm -Rf '" . $toolsPath . "/cmdline-tools'");
         lexec("wget '" . $file . "' -O " .
-            $androidSdkPath . "/tools.zip");
-        chdir($androidSdkPath);
+            $toolsPath . "/tools.zip");
+        chdir($toolsPath);
         lexec("unzip tools.zip");
     }
 
