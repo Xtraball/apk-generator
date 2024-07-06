@@ -1,4 +1,4 @@
-FROM debian:11
+FROM debian:12
 
 MAINTAINER dev@xtraball.com
 
@@ -8,7 +8,7 @@ COPY ./assets/sources.list /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get install -y curl wget
 RUN apt-get install -y zip unzip vim
-RUN apt-get install -y openjdk-11-jdk openjdk-11-jre
+RUN apt-get install -y openjdk-17-jdk openjdk-17-jre
 RUN apt-get install -y php-cli php-curl
 RUN apt-get install -y openssh-server
 RUN mkdir -p /var/run/sshd

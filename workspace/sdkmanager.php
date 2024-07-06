@@ -65,7 +65,7 @@ if ($run) {
 
     file_put_contents($androidSdkPath . "/y.txt",
         implode("\n", array_fill(0, 100, 'y')));
-    lexec($androidSdkPath . '/cmdline-tools/bin/sdkmanager --sdk_root=' . $androidSdkPath . ' ' .
+    lexec($toolsPath . '/cmdline-tools/bin/sdkmanager --sdk_root=' . $androidSdkPath . ' ' .
 //        '"build-tools;30.0.3" ' .
 //        '"build-tools;32.0.0" ' .
         '"build-tools;33.0.2" ' .
@@ -81,7 +81,8 @@ if ($run) {
         '"extras;android;m2repository" ' .
         '"extras;google;m2repository" ' .
         '"extras;google;google_play_services" ' .
-        '"patcher;v4" < ' . $androidSdkPath . '/y.txt');
+//        '"patcher;v4" ' .
+        '< ' . $androidSdkPath . '/y.txt');
 
     // Clean-up!
     if (is_file($androidSdkPath . "/y.txt")) {

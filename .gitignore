@@ -2,3 +2,7 @@
 .idea
 workspace/*.aab
 workspace/apk_*
+docker-compose.yml
+android-sdk
+cmdline-tools
+tools.zip
