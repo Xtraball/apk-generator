@@ -71,6 +71,7 @@ if ($run) {
         '"build-tools;30.0.3" ' .
         '"build-tools;32.0.0" ' .
         '"build-tools;33.0.2" ' .
+        '"build-tools;34.0.0" ' .
         '"platform-tools" ' .
         '"tools" ' .
         '"platforms;android-29" ' .
@@ -78,6 +79,7 @@ if ($run) {
         '"platforms;android-31" ' .
         '"platforms;android-32" ' .
         '"platforms;android-33" ' .
+        '"platforms;android-34" ' .
         '"extras;android;m2repository" ' .
         '"extras;google;m2repository" ' .
         '"extras;google;google_play_services" ' .
