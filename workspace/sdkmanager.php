@@ -37,7 +37,7 @@ if ($run) {
     // Ensure we have the latest tools!
     if (!is_dir($toolsPath . '/cmdline-tools') ||
         !is_file($toolsPath . '/cmdline-tools/bin/sdkmanager')) {
-        lexec("rm -Rf '" . $toolsPath . "'");
+        lexec("rm -Rf '" . $toolsPath . "/cmdline-tools'");
         lexec("wget '" . $file . "' -O " .
             $androidSdkPath . "/tools.zip");
         chdir($androidSdkPath);
