@@ -10,8 +10,9 @@ function lexec ($command) {
     return $result;
 }
 
-$linux = 'https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip';
+//$linux = 'https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip';
 //$linux = 'https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip';
+$linux = 'https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip';
 $file = $linux;
 
 // Disabling Android-SDK check on APK Build!
@@ -34,12 +35,9 @@ if ($run) {
     }
 
     // Ensure we have the latest tools!
-    if (!is_dir($androidSdkPath . '/tools') ||
-        !is_file($androidSdkPath . '/tools/bin/sdkmanager')) {
-        lexec("rm -Rf '" . $androidSdkPath . "'");
-        if (!@file_exists($androidSdkPath)) {
-            mkdir($androidSdkPath, 0777, true);
-        }
+    if (!is_dir($toolsPath . '/cmdline-tools') ||
+        !is_file($toolsPath . '/cmdline-tools/bin/sdkmanager')) {
+        lexec("rm -Rf '" . $toolsPath . "'");
         lexec("wget '" . $file . "' -O " .
             $androidSdkPath . "/tools.zip");
         chdir($androidSdkPath);
@@ -67,17 +65,17 @@ if ($run) {
 
     file_put_contents($androidSdkPath . "/y.txt",
         implode("\n", array_fill(0, 100, 'y')));
-    lexec($androidSdkPath . '/tools/bin/sdkmanager --sdk_root=' . $androidSdkPath . ' ' .
-        '"build-tools;30.0.3" ' .
-        '"build-tools;32.0.0" ' .
+    lexec($androidSdkPath . '/cmdline-tools/bin/sdkmanager --sdk_root=' . $androidSdkPath . ' ' .
+//        '"build-tools;30.0.3" ' .
+//        '"build-tools;32.0.0" ' .
         '"build-tools;33.0.2" ' .
         '"build-tools;34.0.0" ' .
         '"platform-tools" ' .
         '"tools" ' .
-        '"platforms;android-29" ' .
-        '"platforms;android-30" ' .
-        '"platforms;android-31" ' .
-        '"platforms;android-32" ' .
+//        '"platforms;android-29" ' .
+//        '"platforms;android-30" ' .
+//        '"platforms;android-31" ' .
+//        '"platforms;android-32" ' .
         '"platforms;android-33" ' .
         '"platforms;android-34" ' .
         '"extras;android;m2repository" ' .
