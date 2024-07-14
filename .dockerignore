@@ -1,10 +1,8 @@
 .DS_Store
 .idea
-.dev
 workspace/*.aab
 workspace/apk_*
 docker-compose.yml
-android-sdk
-cmdline-tools
-tools.zip
-workspace/jenkins/*
+workspace/android-sdk
+workspace/cmdline-tools
+workspace/tools.zip

@@ -17,5 +17,8 @@ RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 
 WORKDIR /home/builds
 
+COPY ./workspace/sdkmanager.php sdkmanager.php
+RUN php -f sdkmanager.php
+
 EXPOSE 22
 CMD    /usr/sbin/sshd -D

@@ -17,14 +17,14 @@ $file = $linux;
 
 // Disabling Android-SDK check on APK Build!
 $run = true;
-if (is_file(__DIR__ . '/../../../../config.php')) {
-    require __DIR__ . '/../../../../config.php';
-
-    if (isset($config) && array_key_exists('disabled', $config)) {
-        echo 'Android SDK Updater is disabled in `config.php` !' . PHP_EOL;
-        $run = false;
-    }
-}
+//if (is_file(__DIR__ . '/../../../../config.php')) {
+//    require __DIR__ . '/../../../../config.php';
+//
+//    if (isset($config) && array_key_exists('disabled', $config)) {
+//        echo 'Android SDK Updater is disabled in `config.php` !' . PHP_EOL;
+//        $run = false;
+//    }
+//}
 
 if ($run) {
     $toolsPath = dirname(__FILE__);
