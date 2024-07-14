@@ -1,0 +1,33 @@
+Jul 14, 2024 2:31:06 PM hudson.remoting.Launcher createEngine
+INFO: Setting up agent: apkgenerator-1
+Jul 14, 2024 2:31:06 PM hudson.remoting.Engine startEngine
+INFO: Using Remoting version: 3206.vb_15dcf73f6a_9
+Jul 14, 2024 2:31:06 PM org.jenkinsci.remoting.engine.WorkDirManager initializeWorkDir
+INFO: Using /home/builds/remoting as a remoting work directory
+Jul 14, 2024 2:31:06 PM hudson.remoting.Launcher$CuiListener status
+INFO: Locating server among [http://jenkins/]
+Jul 14, 2024 2:31:06 PM hudson.remoting.Launcher$CuiListener status
+INFO: Could not locate server among [http://jenkins/]; waiting 10 seconds before retry
+java.io.IOException: Failed to connect to http://jenkins/tcpSlaveAgentListener/: Connection refused
+	at org.jenkinsci.remoting.engine.JnlpAgentEndpointResolver.resolve(JnlpAgentEndpointResolver.java:217)
+	at hudson.remoting.Engine.innerRun(Engine.java:809)
+	at hudson.remoting.Engine.run(Engine.java:563)
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
+	at java.base/java.net.Socket.connect(Socket.java:633)
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:178)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:533)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:638)
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:281)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:386)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:408)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1309)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1242)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1128)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1057)
+	at org.jenkinsci.remoting.engine.JnlpAgentEndpointResolver.resolve(JnlpAgentEndpointResolver.java:214)
+	... 2 more
+

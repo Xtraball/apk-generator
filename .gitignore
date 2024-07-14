@@ -2,6 +2,8 @@
 .idea
 workspace/*.aab
 workspace/apk_*
+workspace/jenkins/*
+workspace/jenkins/!.gitkeep
 docker-compose.yml
 android-sdk
 cmdline-tools
