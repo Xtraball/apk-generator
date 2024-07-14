@@ -1,5 +1,6 @@
 .DS_Store
 .idea
+.dev
 workspace/*.aab
 workspace/apk_*
 workspace/jenkins/*

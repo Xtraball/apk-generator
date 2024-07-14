@@ -1,16 +1,7 @@
-FROM debian:12
+FROM netreflect/android-builder:34.0.0
 
-MAINTAINER dev@xtraball.com
+USER root
 
-RUN rm -f /etc/apt/sources.list
-COPY ./assets/sources.list /etc/apt/sources.list
-
-RUN apt-get update
-RUN apt-get install -y curl wget
-RUN apt-get install -y zip unzip vim
-RUN apt-get install -y openjdk-17-jdk openjdk-17-jre
-RUN apt-get install -y php-cli php-curl
-RUN apt-get install -y openssh-server
 RUN mkdir -p /var/run/sshd
 RUN echo 'root:jenkins-slave' |chpasswd
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
