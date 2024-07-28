@@ -398,14 +398,14 @@ class Utils
 
         // Read all three files and log them for debug purposes, forcing file_get_contents
         // to read the file from disk and not from cache
-        Utils::log("config.xml", "debug");
-        Utils::log(file_get_contents($configXmlPath), "debug");
-
-        Utils::log("project.properties", "debug");
-        Utils::log(file_get_contents($projectPropertiesPath), "debug");
-
-        Utils::log("CordovaLib/project.properties", "debug");
-        Utils::log(file_get_contents($cordovaLibProjectPropertiesPath), "debug");
+//        Utils::log("config.xml", "debug");
+//        Utils::log(file_get_contents($configXmlPath), "debug");
+//
+//        Utils::log("project.properties", "debug");
+//        Utils::log(file_get_contents($projectPropertiesPath), "debug");
+//
+//        Utils::log("CordovaLib/project.properties", "debug");
+//        Utils::log(file_get_contents($cordovaLibProjectPropertiesPath), "debug");
 
 //        Utils::log("cdv-gradle-config.json", "debug");
 //        Utils::log(file_get_contents($cdvGradleConfigPath), "debug");
