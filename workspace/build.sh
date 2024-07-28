@@ -27,5 +27,5 @@ do
 done
 
 touch "/home/builds/java.lock"
-./gradlew $buildType
-./gradlew $bundleType
+./tools/gradlew $buildType
+./tools/gradlew $bundleType

@@ -385,16 +385,16 @@ class Utils
         file_put_contents($cdvBuildGradlePath, $cdvBuildGradle);
 
         // https://services.gradle.org/distributions/gradle-8.1.1-all.zip
-        $gradleWrapperPath = "/home/builds/{$uuid}/gradle/wrapper/gradle-wrapper.properties";
-        $gradleWrapper = file_get_contents($gradleWrapperPath);
-        $gradleWrapper = preg_replace('/7\.1\.1/i', '8.1.1', $gradleWrapper);
-        file_put_contents($gradleWrapperPath, $gradleWrapper);
+//        $gradleWrapperPath = "/home/builds/{$uuid}/tools/gradle/wrapper/gradle-wrapper.properties";
+//        $gradleWrapper = file_get_contents($gradleWrapperPath);
+//        $gradleWrapper = preg_replace('/7\.1\.1/i', '8.1.1', $gradleWrapper);
+//        file_put_contents($gradleWrapperPath, $gradleWrapper);
 
         // "KOTLIN_VERSION": "1.5.21",
-        $cdvGradleConfigPath = "/home/builds/{$uuid}/cdv-gradle-config.json";
-        $cdvGradleConfig = file_get_contents($cdvGradleConfigPath);
-        $cdvGradleConfig = preg_replace('/"KOTLIN_VERSION": "([0-9\.]+)"/i', '"KOTLIN_VERSION": "1.6.20"', $cdvGradleConfig);
-        file_put_contents($cdvGradleConfigPath, $cdvGradleConfig);
+//        $cdvGradleConfigPath = "/home/builds/{$uuid}/cdv-gradle-config.json";
+//        $cdvGradleConfig = file_get_contents($cdvGradleConfigPath);
+//        $cdvGradleConfig = preg_replace('/"KOTLIN_VERSION": "([0-9\.]+)"/i', '"KOTLIN_VERSION": "1.6.20"', $cdvGradleConfig);
+//        file_put_contents($cdvGradleConfigPath, $cdvGradleConfig);
 
         // Read all three files and log them for debug purposes, forcing file_get_contents
         // to read the file from disk and not from cache
