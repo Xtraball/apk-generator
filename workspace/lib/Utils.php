@@ -251,8 +251,8 @@ class Utils
         Utils::log($command, 'debug');
         Utils::log("Generating keystore!", 'info');
 
-        $releaseSigningPropertiesPath = "/home/builds/{$uuid}/release-signing.properties";
-        exec("rm -f {$releaseSigningPropertiesPath}");
+        # $releaseSigningPropertiesPath = "/home/builds/{$uuid}/release-signing.properties";
+        # exec("rm -f {$releaseSigningPropertiesPath}");
 
         exec($command, $o, $return);
 
