@@ -70,6 +70,8 @@ if ($run) {
 //        '"build-tools;32.0.0" ' .
         '"build-tools;33.0.2" ' .
         '"build-tools;34.0.0" ' .
+        '"build-tools;35.0.0" ' .
+        '"build-tools;36.0.0" ' .
         '"platform-tools" ' .
         '"tools" ' .
 //        '"platforms;android-29" ' .
@@ -78,6 +80,8 @@ if ($run) {
 //        '"platforms;android-32" ' .
         '"platforms;android-33" ' .
         '"platforms;android-34" ' .
+        '"platforms;android-35" ' .
+        '"platforms;android-36" ' .
         '"extras;android;m2repository" ' .
         '"extras;google;m2repository" ' .
         '"extras;google;google_play_services" ' .
